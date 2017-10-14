@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'active_support/cache'
 
 module Review
@@ -26,22 +28,32 @@ module Review
     def <<(appended)
       raise(MessageClosed, 'Message closed. Unable to modify.') if closed?
 
-      @message = "#{message} #{appended}"
+      self.class.new "#{message} #{appended}"
+    end
 
-      self
+    def +(other)
+      self << other.message
     end
 
     def &(final = '')
-      self << final
+      finalizer = final.present? ? self << final : self
+
+      result = finalizer.post
+
+      finalizer.close!
 
       close!
 
-      @@cache.fetch(digest) { post }
+      result
     end
 
     def post
-      # send to slack
-      'k'
+      @@cache.fetch checksum do
+        { message: 'Slack message sent',
+          contents: message,
+          sent_at:  timestamp,
+          checksum: checksum }
+      end
     end
 
     def close!
@@ -54,7 +66,11 @@ module Review
 
     private
 
-    def digest
+    def timestamp
+      Time.now.utc
+    end
+
+    def checksum
       Digest::SHA256.hexdigest message
     end
   end
