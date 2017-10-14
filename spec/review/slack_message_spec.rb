@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'spec_helper'
-
 RSpec.describe Review::SlackMessage do
   describe '.<<' do
     it 'returns a new instance with an initial message' do

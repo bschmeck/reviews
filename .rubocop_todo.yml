@@ -14,13 +14,15 @@ Lint/DuplicateMethods:
 # Offense count: 4
 # Configuration parameters: CountComments, ExcludedMethods.
 Metrics/BlockLength:
-  Max: 77
+  Exclude:
+    - 'spec/**/*'
+    - 'app/review/pull_request.rb'
 
 # Offense count: 9
 # Configuration parameters: AllowHeredoc, AllowURI, URISchemes, IgnoreCopDirectives, IgnoredPatterns.
 # URISchemes: http, https
 Metrics/LineLength:
-  Max: 113
+  Max: 114
 
 # Offense count: 1
 Style/ClassVars:
