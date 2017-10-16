@@ -35,6 +35,16 @@ module Review
       end
     end
 
+    resource :test do
+      params do
+        requires :message, type: String
+      end
+      post do
+        SlackMessage << params[:message] \
+                      & ''
+      end
+    end
+
     resource :github do
       params do
         requires :pull_request, type: Hash
