@@ -11,7 +11,7 @@ RSpec.describe Review::Webhook do
     context 'for uninteresting event' do
       let(:params) do
         { pull_request:
-          { url: 'github.com/Jared-Prime/review/pulls/1',
+          { html_url: 'github.com/Jared-Prime/review/pulls/1',
             assignee: 'Jared-Prime',
             user: { login: 'Jared-Prime' } },
           action: 'closed' }
@@ -28,7 +28,7 @@ RSpec.describe Review::Webhook do
     context 'for PR assignment event' do
       let(:params) do
         { pull_request:
-          { url: 'github.com/Jared-Prime/review/pulls/1',
+          { html_url: 'github.com/Jared-Prime/review/pulls/1',
             assignee: { login: 'Jared-Prime' },
             user: { login: 'Jared-Prime' } },
           action: 'assigned' }
@@ -46,7 +46,7 @@ RSpec.describe Review::Webhook do
     context 'for PR review request event' do
       let(:params) do
         { pull_request:
-          { url: 'github.com/Jared-Prime/review/pulls/1',
+          { html_url: 'github.com/Jared-Prime/review/pulls/1',
             requested_reviewers: [
               { login: 'Jared-Prime' },
               { login: 'somebody-else' }
@@ -68,7 +68,7 @@ RSpec.describe Review::Webhook do
     context 'for PR approval event' do
       let(:params) do
         { pull_request:
-          { url: 'github.com/Jared-Prime/review/pulls/1',
+          { html_url: 'github.com/Jared-Prime/review/pulls/1',
             user: { login: 'Jared-Prime' } },
           review: {
             body: 'good job!',

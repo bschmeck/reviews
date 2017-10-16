@@ -15,7 +15,7 @@ module Review
       end
 
       def pull_request
-        params[:pull_request][:url]
+        params[:pull_request][:html_url]
       end
 
       def reviewers
@@ -35,7 +35,7 @@ module Review
       desc 'notify that a user has been assigned to a PR'
       params do
         requires :pull_request, type: Hash do
-          requires :url, type: String
+          requires :html_url, type: String
           requires :assignee, type: Hash do
             requires :login, type: String
           end
@@ -58,7 +58,7 @@ module Review
         desc 'notify that one or more users have been asked to review a PR'
         params do
           requires :pull_request, type: Hash do
-            requires :url, type: String
+            requires :html_url, type: String
             requires :user, type: Hash do
               requires :login, type: String
             end
@@ -80,7 +80,7 @@ module Review
         desc 'notify that a user has approved a PR'
         params do
           requires :pull_request, type: Hash do
-            requires :url, type: String
+            requires :html_url, type: String
             requires :user, type: Hash do
               requires :login, type: String
             end

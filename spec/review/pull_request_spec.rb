@@ -10,7 +10,7 @@ RSpec.describe Review::PullRequest do
   context 'POST /pr/assign' do
     let(:params) do
       { pull_request:
-        { url: 'github.com/Jared-Prime/review/pulls/1',
+        { html_url: 'github.com/Jared-Prime/review/pulls/1',
           assignee: { login: 'Jared-Prime' },
           user: { login: 'Jared-Prime' } } }
     end
@@ -27,7 +27,7 @@ RSpec.describe Review::PullRequest do
   context 'POST /pr/review/request' do
     let(:params) do
       { pull_request:
-        { url: 'github.com/Jared-Prime/review/pulls/1',
+        { html_url: 'github.com/Jared-Prime/review/pulls/1',
           requested_reviewers: [
             { login: 'Jared-Prime' },
             { login: 'somebody-else' }
@@ -48,7 +48,7 @@ RSpec.describe Review::PullRequest do
   context 'POST /pr/review/approve' do
     let(:params) do
       { pull_request:
-        { url: 'github.com/Jared-Prime/review/pulls/1',
+        { html_url: 'github.com/Jared-Prime/review/pulls/1',
           user: { login: 'Jared-Prime' } },
         review: {
           body: 'good job!',
