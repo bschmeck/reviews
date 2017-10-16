@@ -11,7 +11,7 @@ RSpec.describe Review::PullRequest do
     let(:params) do
       { pull_request:
         { url: 'github.com/Jared-Prime/review/pulls/1',
-          assignee: 'Jared-Prime',
+          assignee: { login: 'Jared-Prime' },
           user: { login: 'Jared-Prime' } } }
     end
 

@@ -11,7 +11,7 @@ module Review
       end
 
       def assignee
-        params[:pull_request][:assignee]
+        params[:pull_request][:assignee][:login]
       end
 
       def pull_request
@@ -36,7 +36,9 @@ module Review
       params do
         requires :pull_request, type: Hash do
           requires :url, type: String
-          requires :assignee, type: String
+          requires :assignee, type: Hash do
+            requires :login, type: String
+          end
           requires :user, type: Hash do
             requires :login, type: String
           end
