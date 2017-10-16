@@ -16,4 +16,4 @@ bundle:
 	@time bundle package --all
 
 server:
-	@bundle exec rackup
+	@SLACK_WEBHOOK=$(SLACK_WEBHOOK) bundle exec rackup

@@ -2,4 +2,4 @@
 
 require_relative 'app/review'
 
-run Review::PullRequest
+run Review::Endpoints

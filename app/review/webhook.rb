@@ -36,12 +36,9 @@ module Review
     end
 
     resource :test do
-      params do
-        requires :message, type: String
-      end
       post do
-        SlackMessage << params[:message] \
-                      & ''
+        SlackMessage << 'test endpoint accessed at' \
+                      & Time.now.utc
       end
     end
 
