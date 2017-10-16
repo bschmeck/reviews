@@ -17,12 +17,13 @@ Metrics/BlockLength:
   Exclude:
     - 'spec/**/*'
     - 'app/review/pull_request.rb'
+    - 'app/review/webhook.rb'
 
 # Offense count: 9
 # Configuration parameters: AllowHeredoc, AllowURI, URISchemes, IgnoreCopDirectives, IgnoredPatterns.
 # URISchemes: http, https
 Metrics/LineLength:
-  Max: 114
+  Max: 120
 
 # Offense count: 1
 Style/ClassVars:
@@ -35,5 +36,5 @@ Style/Documentation:
     - 'spec/**/*'
     - 'test/**/*'
     - 'app/review.rb'
-    - 'app/review/pull_request.rb'
-    - 'app/review/slack_message.rb'
+    - 'app/review/*.rb'
+    - 'app/review/*.rb'
