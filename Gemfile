@@ -4,6 +4,7 @@ source 'https://rubygems.org'
 
 gem 'activesupport'
 gem 'grape'
+gem 'httparty'
 gem 'require_all'
 
 group :development, :test do

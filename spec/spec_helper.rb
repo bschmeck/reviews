@@ -19,4 +19,8 @@ RSpec.configure do |config|
   config.warnings = true
   config.order = :random
   Kernel.srand config.seed
+
+  config.before(:each) do
+    allow(HTTParty).to receive(:post)
+  end
 end

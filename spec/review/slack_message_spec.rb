@@ -45,6 +45,8 @@ RSpec.describe Review::SlackMessage do
     let(:example) { described_class.new 'hello' }
 
     it 'posts to slack' do
+      expect(HTTParty).to receive(:post)
+
       res = example.&
 
       expect(res).to include(

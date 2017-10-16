@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'active_support/cache'
+require 'httparty'
 
 module Review
   class SlackMessage
@@ -49,6 +50,8 @@ module Review
 
     def post
       @@cache.fetch checksum do
+        post_to_slack! message
+
         { message: 'Slack message sent',
           contents: message,
           sent_at:  timestamp,
@@ -65,6 +68,10 @@ module Review
     end
 
     private
+
+    def post_to_slack!(message)
+      HTTParty.post(ENV['SLACK_WEBHOOK'], body: { text: message }.to_json)
+    end
 
     def timestamp
       Time.now.utc
