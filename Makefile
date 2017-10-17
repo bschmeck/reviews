@@ -1,3 +1,5 @@
+USERNAME_ALIASES := 'data/aliases.yml.example'
+
 default: clean test server
 
 lint:
@@ -6,7 +8,7 @@ lint:
 clean:
 	@time bundle exec rubocop -a
 
-test: lint bundle db-reset
+test: lint bundle
 	@time bundle exec rspec
 
 test-live:

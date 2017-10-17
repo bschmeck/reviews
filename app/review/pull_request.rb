@@ -7,11 +7,11 @@ module Review
 
     helpers do
       def pull_request_submitter
-        params[:pull_request][:user][:login]
+        Alias.for params[:pull_request][:user][:login]
       end
 
       def assignee
-        params[:pull_request][:assignee][:login]
+        Alias.for params[:pull_request][:assignee][:login]
       end
 
       def pull_request
@@ -19,11 +19,12 @@ module Review
       end
 
       def reviewers
-        params.dig(:pull_request, :requested_reviewers) || []
+        params.dig(:pull_request, :requested_reviewers)
+              .map { |reviewer| Alias.for reviewer[:login] }
       end
 
       def review_submitter
-        params[:review][:user][:login]
+        Alias.for params[:review][:user][:login]
       end
 
       def review_message
@@ -69,7 +70,7 @@ module Review
           reviewers.map do |reviewer|
             SlackMessage << pull_request_submitter \
                          << 'needs' \
-                         << reviewer[:login] \
+                         << reviewer \
                          << 'to review' \
                           & pull_request
           end

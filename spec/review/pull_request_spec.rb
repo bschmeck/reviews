@@ -29,7 +29,7 @@ RSpec.describe Review::PullRequest do
       post '/pr/assign', params
 
       expect(JSON.parse(last_response.body)).to include(
-        'contents' => 'Jared-Prime assigned github.com/Jared-Prime/review/pulls/1 to Jared-Prime'
+        'contents' => 'Jared assigned github.com/Jared-Prime/review/pulls/1 to Jared'
       )
     end
   end
@@ -49,8 +49,8 @@ RSpec.describe Review::PullRequest do
       post '/pr/review/request', params
 
       expect(JSON.parse(last_response.body)).to include(
-        include('contents' => 'Jared-Prime needs Jared-Prime to review github.com/Jared-Prime/review/pulls/1'),
-        include('contents' => 'Jared-Prime needs somebody-else to review github.com/Jared-Prime/review/pulls/1')
+        include('contents' => 'Jared needs Jared to review github.com/Jared-Prime/review/pulls/1'),
+        include('contents' => 'Jared needs somebody-else to review github.com/Jared-Prime/review/pulls/1')
       )
     end
   end
@@ -70,7 +70,7 @@ RSpec.describe Review::PullRequest do
       post '/pr/review/approve', params
 
       expect(JSON.parse(last_response.body)).to include(
-        'contents' => "Jared-Prime has approved github.com/Jared-Prime/review/pulls/1 by Jared-Prime \n good job!"
+        'contents' => "Jared has approved github.com/Jared-Prime/review/pulls/1 by Jared \n good job!"
       )
     end
   end

@@ -42,18 +42,6 @@ module Review
       end
     end
 
-    namespace :config do
-      resource :useralias do
-        params do
-          requires :username, type: String
-          requires :aliasname, type: String
-        end
-        post do
-          Alias.make(params[:username], params[:aliasname])
-        end
-      end
-    end
-
     resource :github do
       params do
         requires :pull_request, type: Hash

@@ -17,23 +17,6 @@ RSpec.describe Review::Webhook do
     header 'X-Hub-Signature', "sha=#{signature}"
   end
 
-  context 'POST /webhook/config/useralias' do
-    let(:params) do
-      { username: 'Jared-Prime', aliasname: 'Jared' }
-    end
-
-    it 'creates an alias for the username' do
-      expect do
-        post '/webhook/config/useralias', params
-      end.to change {
-        Review::Alias::DB[:aliases].count
-      }.by(2)
-
-      expect(Review::Alias.for('Jared-Prime')).to include aliasname: 'Jared'
-      expect(Review::Alias.for('Jared')).to include aliasname: 'Jared-Prime'
-    end
-  end
-
   context 'POST /webhook/github' do
     context 'for uninteresting event' do
       let(:params) do
@@ -65,7 +48,7 @@ RSpec.describe Review::Webhook do
         post '/webhook/github', params
 
         expect(JSON.parse(last_response.body)).to include(
-          'contents' => 'Jared-Prime assigned github.com/Jared-Prime/review/pulls/1 to Jared-Prime'
+          'contents' => 'Jared assigned github.com/Jared-Prime/review/pulls/1 to Jared'
         )
       end
     end
@@ -86,8 +69,8 @@ RSpec.describe Review::Webhook do
         post '/webhook/github', params
 
         expect(JSON.parse(last_response.body)).to include(
-          include('contents' => 'Jared-Prime needs Jared-Prime to review github.com/Jared-Prime/review/pulls/1'),
-          include('contents' => 'Jared-Prime needs somebody-else to review github.com/Jared-Prime/review/pulls/1')
+          include('contents' => 'Jared needs Jared to review github.com/Jared-Prime/review/pulls/1'),
+          include('contents' => 'Jared needs somebody-else to review github.com/Jared-Prime/review/pulls/1')
         )
       end
     end
@@ -108,7 +91,7 @@ RSpec.describe Review::Webhook do
         post '/webhook/github', params
 
         expect(JSON.parse(last_response.body)).to include(
-          'contents' => "Jared-Prime has approved github.com/Jared-Prime/review/pulls/1 by Jared-Prime \n good job!"
+          'contents' => "Jared has approved github.com/Jared-Prime/review/pulls/1 by Jared \n good job!"
         )
       end
     end

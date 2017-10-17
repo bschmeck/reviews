@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
+ENV['WEBHOOK_SECRET_TOKEN'] = '123456'
+ENV['USERNAME_ALIASES'] = 'data/aliases.yml.example'
+
 require './app/review'
 require 'pry'
 require 'rack/test'
@@ -19,10 +22,6 @@ RSpec.configure do |config|
   config.warnings = true
   config.order = :random
   Kernel.srand config.seed
-
-  config.before(:all) do
-    ENV['WEBHOOK_SECRET_TOKEN'] = '123456'
-  end
 
   config.before(:each) do
     allow(HTTParty).to receive(:post)
