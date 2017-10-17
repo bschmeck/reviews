@@ -7,6 +7,23 @@ RSpec.describe Review::Webhook do
     described_class
   end
 
+  context 'POST /webhook/config/useralias' do
+    let(:params) do
+      { username: 'Jared-Prime', aliasname: 'Jared' }
+    end
+
+    it 'creates an alias for the username' do
+      expect do
+        post '/webhook/config/useralias', params
+      end.to change {
+        Review::Alias::DB[:aliases].count
+      }.by(2)
+
+      expect(Review::Alias.for('Jared-Prime')).to include aliasname: 'Jared'
+      expect(Review::Alias.for('Jared')).to include aliasname: 'Jared-Prime'
+    end
+  end
+
   context 'POST /webhook/github' do
     context 'for uninteresting event' do
       let(:params) do
