@@ -7,6 +7,16 @@ RSpec.describe Review::Webhook do
     described_class
   end
 
+  let(:signature) do
+    OpenSSL::HMAC.hexdigest(
+      'sha1', ENV['WEBHOOK_SECRET_TOKEN'], Rack::Utils.build_nested_query(params)
+    )
+  end
+
+  before do
+    header 'X-Hub-Signature', "sha=#{signature}"
+  end
+
   context 'POST /webhook/config/useralias' do
     let(:params) do
       { username: 'Jared-Prime', aliasname: 'Jared' }

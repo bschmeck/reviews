@@ -20,6 +20,10 @@ RSpec.configure do |config|
   config.order = :random
   Kernel.srand config.seed
 
+  config.before(:all) do
+    ENV['WEBHOOK_SECRET_TOKEN'] = '123456'
+  end
+
   config.before(:each) do
     allow(HTTParty).to receive(:post)
   end
