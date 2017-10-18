@@ -89,6 +89,10 @@ module Review
       end
 
       resource :submit do
+        before do
+          error!('Self reviews not allowed') if review_submitter == pull_request_submitter
+        end
+
         desc 'notify that a user has approved a PR'
         params do
           requires :pull_request, type: Hash do

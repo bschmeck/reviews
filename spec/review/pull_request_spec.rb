@@ -63,7 +63,7 @@ RSpec.describe Review::PullRequest do
             user: { login: 'Jared-Prime' } },
           review: {
             body: 'good job!',
-            user: { login: 'Jared-Prime' }
+            user: { login: 'a friend' }
           } }
       end
 
@@ -71,7 +71,7 @@ RSpec.describe Review::PullRequest do
         post '/pr/review/submit', params
 
         expect(JSON.parse(last_response.body)).to include(
-          'contents' => "Jared has reviewed github.com/Jared-Prime/review/pulls/1 by Jared \n good job!"
+          'contents' => "a friend has reviewed github.com/Jared-Prime/review/pulls/1 by Jared \n good job!"
         )
       end
     end
@@ -84,7 +84,7 @@ RSpec.describe Review::PullRequest do
           review: {
             state: 'approved',
             body: 'good job!',
-            user: { login: 'Jared-Prime' }
+            user: { login: 'a friend' }
           } }
       end
 
@@ -92,7 +92,7 @@ RSpec.describe Review::PullRequest do
         post '/pr/review/submit', params
 
         expect(JSON.parse(last_response.body)).to include(
-          'contents' => "Jared has approved github.com/Jared-Prime/review/pulls/1 by Jared \n good job!"
+          'contents' => "a friend has approved github.com/Jared-Prime/review/pulls/1 by Jared \n good job!"
         )
       end
     end
@@ -105,7 +105,7 @@ RSpec.describe Review::PullRequest do
           review: {
             state: 'changes_requested',
             body: 'good job!',
-            user: { login: 'Jared-Prime' }
+            user: { login: 'a friend' }
           } }
       end
 
@@ -113,7 +113,7 @@ RSpec.describe Review::PullRequest do
         post '/pr/review/submit', params
 
         expect(JSON.parse(last_response.body)).to include(
-          'contents' => "Jared has requested changes on github.com/Jared-Prime/review/pulls/1 by Jared \n good job!"
+          'contents' => "a friend has requested changes on github.com/Jared-Prime/review/pulls/1 by Jared \n good job!"
         )
       end
     end
