@@ -18,3 +18,7 @@ bundle:
 	@time bundle package --all
 
 server:
+	@SLACK_WEBHOOK=$(SLACK_WEBHOOK) bundle exec rackup
+
+console: test
+	@bundle exec pry
