@@ -39,7 +39,7 @@ RSpec.describe Review::Webhook do
       let(:params) do
         { pull_request:
           { html_url: 'github.com/Jared-Prime/review/pulls/1',
-            assignee: { login: 'Jared-Prime' },
+            assignee: { login: 'a friend' },
             user: { login: 'Jared-Prime' } },
           action: 'assigned' }
       end
@@ -48,7 +48,7 @@ RSpec.describe Review::Webhook do
         post '/webhook/github', params
 
         expect(JSON.parse(last_response.body)).to include(
-          'contents' => 'Jared assigned github.com/Jared-Prime/review/pulls/1 to Jared'
+          'contents' => 'Jared assigned github.com/Jared-Prime/review/pulls/1 to a friend'
         )
       end
     end
@@ -59,7 +59,7 @@ RSpec.describe Review::Webhook do
           { html_url: 'github.com/Jared-Prime/review/pulls/1',
             requested_reviewers: [
               { login: 'Jared-Prime' },
-              { login: 'somebody-else' }
+              { login: 'a friend' }
             ],
             user: { login: 'Jared-Prime' } },
           action: 'review_requested' }
@@ -70,7 +70,7 @@ RSpec.describe Review::Webhook do
 
         expect(JSON.parse(last_response.body)).to include(
           include('contents' => 'Jared needs Jared to review github.com/Jared-Prime/review/pulls/1'),
-          include('contents' => 'Jared needs somebody-else to review github.com/Jared-Prime/review/pulls/1')
+          include('contents' => 'Jared needs a friend to review github.com/Jared-Prime/review/pulls/1')
         )
       end
     end
@@ -82,7 +82,7 @@ RSpec.describe Review::Webhook do
             user: { login: 'Jared-Prime' } },
           review: {
             body: 'good job!',
-            user: { login: 'Jared-Prime' }
+            user: { login: 'a friend' }
           },
           action: 'submitted' }
       end
@@ -91,7 +91,7 @@ RSpec.describe Review::Webhook do
         post '/webhook/github', params
 
         expect(JSON.parse(last_response.body)).to include(
-          'contents' => "Jared has reviewed github.com/Jared-Prime/review/pulls/1 by Jared \n good job!"
+          'contents' => "a friend has reviewed github.com/Jared-Prime/review/pulls/1 by Jared \n good job!"
         )
       end
     end
