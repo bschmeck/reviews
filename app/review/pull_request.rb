@@ -6,6 +6,17 @@ module Review
     format :json
 
     helpers do
+      def pull_request_state_verb
+        case params[:review][:state]
+        when 'approved'
+          'has approved'
+        when 'changes_requested'
+          'has requested changes on'
+        else
+          'has reviewed'
+        end
+      end
+
       def pull_request_submitter
         Alias.for params[:pull_request][:user][:login]
       end
@@ -77,7 +88,7 @@ module Review
         end
       end
 
-      resource :approve do
+      resource :submit do
         desc 'notify that a user has approved a PR'
         params do
           requires :pull_request, type: Hash do
@@ -96,7 +107,7 @@ module Review
 
         post do
           SlackMessage << review_submitter \
-                       << 'has approved' \
+                       << pull_request_state_verb \
                        << pull_request \
                        << 'by' \
                        << pull_request_submitter \
