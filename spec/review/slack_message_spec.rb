@@ -45,7 +45,7 @@ RSpec.describe Review::SlackMessage do
     let(:example) { described_class.new 'hello' }
 
     it 'posts to slack' do
-      expect(HTTParty).to receive(:post)
+      expect(HTTParty).to receive(:post).once
 
       res = example.&
 
@@ -88,6 +88,14 @@ RSpec.describe Review::SlackMessage do
         .to raise_error(Review::SlackMessage::MessageClosed, 'Message closed. Unable to modify.')
       expect { example &  'hi again' }
         .to raise_error(Review::SlackMessage::MessageClosed, 'Message closed. Unable to modify.')
+    end
+
+    context 'caching' do
+      it 'is idempotent' do
+        expect(HTTParty).to receive(:post).once
+
+        2.times { example.& }
+      end
     end
   end
 

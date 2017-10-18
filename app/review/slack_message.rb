@@ -5,17 +5,19 @@ require 'httparty'
 
 module Review
   class SlackMessage
-    @@cache = ActiveSupport::Cache::MemoryStore.new
-
     MessageClosed = Class.new(RuntimeError)
-
-    def self.<<(message)
-      new(message)
-    end
 
     class << self
       def <<(message)
         new(message)
+      end
+
+      def clear_cache!
+        cache.clear
+      end
+
+      def cache
+        @cache = ActiveSupport::Cache::FileStore.new('.cache')
       end
     end
 
@@ -49,7 +51,7 @@ module Review
     end
 
     def post
-      @@cache.fetch checksum do
+      cache.fetch checksum do
         post_to_slack! message
 
         { message: 'Slack message sent',
@@ -68,6 +70,10 @@ module Review
     end
 
     private
+
+    def cache
+      self.class.cache
+    end
 
     def post_to_slack!(message)
       HTTParty.post(ENV['SLACK_WEBHOOK'], body: { text: message }.to_json)
