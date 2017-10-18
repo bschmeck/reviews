@@ -53,5 +53,12 @@ RSpec.describe Review::Alias do
     it 'places a dot in the name to silence Slack notification' do
       expect(described_class.silent('Jared')).to eq 'Jar.ed'
     end
+
+    it 'works for short names' do
+      expect(described_class.silent('Jane')).to eq 'Ja.ne'
+      expect(described_class.silent('Sam')).to eq 'S.am'
+      expect(described_class.silent('Jo')).to eq 'J.o'
+      expect(described_class.silent('进')).to eq '.进'
+    end
   end
 end

@@ -22,7 +22,16 @@ module Review
       end
 
       def silent(aliasname)
-        aliasname[0..-3] << '.' << aliasname[-2..-1]
+        case aliasname.length
+        when 0
+          'anybody'
+        when 1
+          ".#{aliasname}"
+        when 2
+          "#{aliasname[0]}.#{aliasname[1]}"
+        else
+          "#{aliasname[0..-3]}.#{aliasname[-2..-1]}"
+        end
       end
 
       def silence?
