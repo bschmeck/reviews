@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 ENV['WEBHOOK_SECRET_TOKEN'] = '123456'
-ENV['USERNAME_ALIASES'] = 'data/aliases.yml.example'
+ENV['USERNAME_ALIASES'] = 'config/aliases.yml.example'
+ENV['CONFIG_FILE'] = 'config/settings.yml.example'
 
 require './app/review'
 require 'pry'
@@ -25,5 +26,6 @@ RSpec.configure do |config|
 
   config.before(:each) do
     allow(HTTParty).to receive(:post)
+    allow(Review::Alias).to receive(:current_hour) { 36_000 }
   end
 end
