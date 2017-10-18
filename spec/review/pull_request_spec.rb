@@ -55,23 +55,67 @@ RSpec.describe Review::PullRequest do
     end
   end
 
-  context 'POST /pr/review/approve' do
-    let(:params) do
-      { pull_request:
-        { html_url: 'github.com/Jared-Prime/review/pulls/1',
-          user: { login: 'Jared-Prime' } },
-        review: {
-          body: 'good job!',
-          user: { login: 'Jared-Prime' }
-        } }
+  context 'POST /pr/review/submit' do
+    context 'default verbiage' do
+      let(:params) do
+        { pull_request:
+          { html_url: 'github.com/Jared-Prime/review/pulls/1',
+            user: { login: 'Jared-Prime' } },
+          review: {
+            body: 'good job!',
+            user: { login: 'Jared-Prime' }
+          } }
+      end
+
+      it 'proxies message to Slack' do
+        post '/pr/review/submit', params
+
+        expect(JSON.parse(last_response.body)).to include(
+          'contents' => "Jared has reviewed github.com/Jared-Prime/review/pulls/1 by Jared \n good job!"
+        )
+      end
     end
 
-    it 'proxies message to Slack' do
-      post '/pr/review/approve', params
+    context 'approved PR' do
+      let(:params) do
+        { pull_request:
+          { html_url: 'github.com/Jared-Prime/review/pulls/1',
+            user: { login: 'Jared-Prime' } },
+          review: {
+            state: 'approved',
+            body: 'good job!',
+            user: { login: 'Jared-Prime' }
+          } }
+      end
 
-      expect(JSON.parse(last_response.body)).to include(
-        'contents' => "Jared has approved github.com/Jared-Prime/review/pulls/1 by Jared \n good job!"
-      )
+      it 'proxies message to Slack' do
+        post '/pr/review/submit', params
+
+        expect(JSON.parse(last_response.body)).to include(
+          'contents' => "Jared has approved github.com/Jared-Prime/review/pulls/1 by Jared \n good job!"
+        )
+      end
+    end
+
+    context 'change request' do
+      let(:params) do
+        { pull_request:
+          { html_url: 'github.com/Jared-Prime/review/pulls/1',
+            user: { login: 'Jared-Prime' } },
+          review: {
+            state: 'changes_requested',
+            body: 'good job!',
+            user: { login: 'Jared-Prime' }
+          } }
+      end
+
+      it 'proxies message to Slack' do
+        post '/pr/review/submit', params
+
+        expect(JSON.parse(last_response.body)).to include(
+          'contents' => "Jared has requested changes on github.com/Jared-Prime/review/pulls/1 by Jared \n good job!"
+        )
+      end
     end
   end
 end

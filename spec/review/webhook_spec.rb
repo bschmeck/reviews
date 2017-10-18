@@ -27,11 +27,11 @@ RSpec.describe Review::Webhook do
           action: 'closed' }
       end
 
-      it 'returns a 304 with no action taken' do
+      it 'returns a 201 with no action taken' do
         post '/webhook/github', params
 
-        expect(last_response.status).to eq 304
-        expect(last_response.body).to include 'No action taken'
+        expect(last_response.status).to eq 201
+        expect(last_response.body).to eq 'No configuration for `closed`. Dropping payload.'
       end
     end
 
@@ -91,7 +91,7 @@ RSpec.describe Review::Webhook do
         post '/webhook/github', params
 
         expect(JSON.parse(last_response.body)).to include(
-          'contents' => "Jared has approved github.com/Jared-Prime/review/pulls/1 by Jared \n good job!"
+          'contents' => "Jared has reviewed github.com/Jared-Prime/review/pulls/1 by Jared \n good job!"
         )
       end
     end

@@ -9,8 +9,7 @@ module Review
         if redirect_url
           capture_response
         else
-          status 304
-          'No action taken'
+          "No configuration for `#{params[:action]}`. Dropping payload."
         end
       end
 
@@ -30,7 +29,7 @@ module Review
         when 'review_requested'
           '/pr/review/request'
         when 'submitted'
-          '/pr/review/approve'
+          '/pr/review/submit'
         end
       end
     end
