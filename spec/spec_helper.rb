@@ -28,4 +28,8 @@ RSpec.configure do |config|
     allow(HTTParty).to receive(:post)
     allow(Review::Alias).to receive(:current_hour) { 36_000 }
   end
+
+  config.after(:each) do
+    Review::SlackMessage.clear_cache!
+  end
 end
