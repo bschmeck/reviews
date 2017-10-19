@@ -9,7 +9,7 @@ RSpec.describe Review::Webhook do
 
   let(:signature) do
     OpenSSL::HMAC.hexdigest(
-      'sha1', ENV['WEBHOOK_SECRET_TOKEN'], Rack::Utils.build_nested_query(params)
+      'sha1', '123456', Rack::Utils.build_nested_query(params)
     )
   end
 

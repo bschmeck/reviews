@@ -20,7 +20,7 @@ module Review
 
       def hmac
         OpenSSL::HMAC.hexdigest(
-          'sha1', ENV['WEBHOOK_SECRET_TOKEN'], full_body
+          'sha1', ENV.fetch('WEBHOOK_SECRET_TOKEN'), full_body
         )
       end
 
