@@ -2,17 +2,9 @@
 
 module Review
   class Alias
-    names = YAML.load_file(ENV['USERNAME_ALIASES'])
-
-    ALIASES = names.merge(names.invert)
-                   .freeze
-
-    CONFIG = YAML.load_file(ENV['CONFIG_FILE'])
-                 .freeze
-
     class << self
       def for(username)
-        aliasname = ALIASES.fetch(username, username)
+        aliasname = aliases.fetch(username, username)
 
         if silence?
           silent aliasname
@@ -61,15 +53,31 @@ module Review
       end
 
       def offset
-        CONFIG.dig('silence', 'offset')
+        settings.dig('silence', 'offset')
       end
 
       def silence_start
-        CONFIG.dig('silence', 'start')
+        settings.dig('silence', 'start')
       end
 
       def silence_finish
-        CONFIG.dig('silence', 'end')
+        settings.dig('silence', 'end')
+      end
+
+      def settings
+        @settings ||= YAML.load_file(
+          ENV.fetch('CONFIG_FILE', 'config/settings.yml.example')
+        )
+      end
+
+      def aliases
+        return @aliases if defined? @aliases
+
+        names = YAML.load_file(
+          ENV.fetch('USERNAME_ALIASES', 'config/aliases.yml.example')
+        )
+
+        @aliases = names.merge(names.invert)
       end
     end
   end
