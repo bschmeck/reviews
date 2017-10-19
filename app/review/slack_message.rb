@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require 'active_support/cache'
 require 'httparty'
 
 module Review
@@ -11,21 +10,14 @@ module Review
       def <<(message)
         new(message)
       end
-
-      def clear_cache!
-        cache.clear
-      end
-
-      def cache
-        @cache = ActiveSupport::Cache::FileStore.new('.cache')
-      end
     end
 
-    attr_reader :message
+    attr_reader :message, :cache
 
-    def initialize(message)
+    def initialize(message, cache: Review::Cache.current)
       @message = message
       @closed = false
+      @cache  = cache
     end
 
     def <<(appended)
@@ -70,10 +62,6 @@ module Review
     end
 
     private
-
-    def cache
-      self.class.cache
-    end
 
     def post_to_slack!(message)
       HTTParty.post(ENV['SLACK_WEBHOOK'], body: { text: message }.to_json)

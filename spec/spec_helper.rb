@@ -30,6 +30,6 @@ RSpec.configure do |config|
   end
 
   config.after(:each) do
-    Review::SlackMessage.clear_cache!
+    Review::Cache.current.clear
   end
 end
