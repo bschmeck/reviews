@@ -55,13 +55,10 @@ RSpec.describe Review::Webhook do
 
     context 'for PR review request event' do
       let(:params) do
-        { pull_request:
-          { html_url: 'github.com/Jared-Prime/review/pulls/1',
-            requested_reviewers: [
-              { login: 'Jared-Prime' },
-              { login: 'a friend' }
-            ],
-            user: { login: 'Jared-Prime' } },
+        { pull_request: {
+          html_url: 'github.com/Jared-Prime/review/pulls/1',
+          user: { login: 'Jared-Prime' } },
+          requested_reviewer: { login: 'a friend' },
           action: 'review_requested' }
       end
 
@@ -69,8 +66,7 @@ RSpec.describe Review::Webhook do
         post '/webhook/github', params
 
         expect(JSON.parse(last_response.body)).to include(
-          include('contents' => 'Jared needs Jared to review github.com/Jared-Prime/review/pulls/1'),
-          include('contents' => 'Jared needs a friend to review github.com/Jared-Prime/review/pulls/1')
+          'contents' => 'Jared needs a friend to review github.com/Jared-Prime/review/pulls/1'
         )
       end
     end

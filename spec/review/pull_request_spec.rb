@@ -36,21 +36,18 @@ RSpec.describe Review::PullRequest do
 
   context 'POST /pr/review/request' do
     let(:params) do
-      { pull_request:
-        { html_url: 'github.com/Jared-Prime/review/pulls/1',
-          requested_reviewers: [
-            { login: 'Jared-Prime' },
-            { login: 'somebody-else' }
-          ],
-          user: { login: 'Jared-Prime' } } }
+      { pull_request: {
+        html_url: 'github.com/Jared-Prime/review/pulls/1',
+        user: { login: 'Jared-Prime' } },
+        requested_reviewer: { login: 'somebody-else' }
+        }
     end
 
     it 'proxies message to Slack' do
       post '/pr/review/request', params
 
       expect(JSON.parse(last_response.body)).to include(
-        include('contents' => 'Jared needs Jared to review github.com/Jared-Prime/review/pulls/1'),
-        include('contents' => 'Jared needs somebody-else to review github.com/Jared-Prime/review/pulls/1')
+        'contents' => 'Jared needs somebody-else to review github.com/Jared-Prime/review/pulls/1'
       )
     end
   end

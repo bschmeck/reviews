@@ -29,9 +29,8 @@ module Review
         params[:pull_request][:html_url]
       end
 
-      def reviewers
-        params.dig(:pull_request, :requested_reviewers)
-              .map { |reviewer| Alias.for reviewer[:login] }
+      def reviewer
+        Alias.for params[:requested_reviewer][:login]
       end
 
       def review_submitter
@@ -75,16 +74,17 @@ module Review
               requires :login, type: String
             end
           end
+          requires :requested_reviewer, type: Hash do
+            requires :login, type: String
+          end
         end
 
         post do
-          reviewers.map do |reviewer|
-            SlackMessage << pull_request_submitter \
-                         << 'needs' \
-                         << reviewer \
-                         << 'to review' \
-                          & pull_request
-          end
+          SlackMessage << pull_request_submitter \
+                       << 'needs' \
+                       << reviewer \
+                       << 'to review' \
+                        & pull_request
         end
       end
 
