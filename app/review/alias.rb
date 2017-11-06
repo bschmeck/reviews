@@ -41,19 +41,12 @@ module Review
       end
 
       def current_hour
-        Time.now.utc - Time.now.beginning_of_day.utc + hour_adjustment
+        Time.zone = zone
+        Time.now
       end
 
-      def hour_adjustment
-        if Time.local(Time.now.to_i).dst?
-          offset - 1
-        else
-          offset
-        end
-      end
-
-      def offset
-        settings.dig('silence', 'offset')
+      def zone
+        settings.dig('silence', 'zone')
       end
 
       def silence_start

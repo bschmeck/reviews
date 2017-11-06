@@ -57,7 +57,8 @@ RSpec.describe Review::Webhook do
       let(:params) do
         { pull_request: {
           html_url: 'github.com/Jared-Prime/review/pulls/1',
-          user: { login: 'Jared-Prime' } },
+          user: { login: 'Jared-Prime' }
+        },
           requested_reviewer: { login: 'a friend' },
           action: 'review_requested' }
       end

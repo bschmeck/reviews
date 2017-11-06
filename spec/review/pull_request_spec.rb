@@ -38,9 +38,9 @@ RSpec.describe Review::PullRequest do
     let(:params) do
       { pull_request: {
         html_url: 'github.com/Jared-Prime/review/pulls/1',
-        user: { login: 'Jared-Prime' } },
-        requested_reviewer: { login: 'somebody-else' }
-        }
+        user: { login: 'Jared-Prime' }
+      },
+        requested_reviewer: { login: 'somebody-else' } }
     end
 
     it 'proxies message to Slack' do
