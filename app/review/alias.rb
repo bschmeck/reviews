@@ -33,16 +33,16 @@ module Review
       private
 
       def too_late?
-        current_hour > silence_start
+        current_time_in_seconds > silence_start
       end
 
       def too_early?
-        current_hour < silence_finish
+        current_time_in_seconds < silence_finish
       end
 
-      def current_hour
+      def current_time_in_seconds
         Time.zone = zone
-        Time.now
+        Time.now.seconds_since_midnight
       end
 
       def zone

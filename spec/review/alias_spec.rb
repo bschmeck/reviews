@@ -8,7 +8,7 @@ RSpec.describe Review::Alias do
 
     context 'off hours specified in config/settings.yml' do
       before do
-        allow(described_class).to receive(:current_hour) { 64_801 }
+        allow(described_class).to receive(:current_time_in_seconds) { 64_801 }
       end
 
       it 'returns true' do
@@ -18,7 +18,7 @@ RSpec.describe Review::Alias do
 
     context 'on hours specified in config/settings.yml' do
       before do
-        allow(described_class).to receive(:current_hour) { 36_000 }
+        allow(described_class).to receive(:current_time_in_seconds) { 36_000 }
       end
 
       it 'returns false' do
@@ -30,7 +30,7 @@ RSpec.describe Review::Alias do
   describe '.silence?' do
     context 'off hours specified in config/settings.yml' do
       before do
-        allow(described_class).to receive(:current_hour) { 64_801 }
+        allow(described_class).to receive(:current_time_in_seconds) { 64_801 }
       end
 
       it 'returns true' do
@@ -40,7 +40,7 @@ RSpec.describe Review::Alias do
 
     context 'on hours specified in config/settings.yml' do
       before do
-        allow(described_class).to receive(:current_hour) { 36_000 }
+        allow(described_class).to receive(:current_time_in_seconds) { 36_000 }
       end
 
       it 'returns false' do
