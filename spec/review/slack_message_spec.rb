@@ -1,6 +1,14 @@
 # frozen_string_literal: true
 
 RSpec.describe Review::SlackMessage do
+  let(:formatted_username) { 'formatted username' }
+
+  before do
+    allow(Review::SlackUsernameFormatter).to(
+      receive(:call).with('username').and_return(formatted_username)
+    )
+  end
+
   describe '.<<' do
     it 'returns a new instance with an initial message' do
       example = described_class << 'hello'
@@ -13,6 +21,12 @@ RSpec.describe Review::SlackMessage do
                                 << 'world'
 
       expect(example.message).to eq 'hello world'
+    end
+
+    it 'formats usernames' do
+      message = double(slack_username: 'username')
+      example = described_class << message
+      expect(example.message).to eq 'formatted username'
     end
   end
 
@@ -32,6 +46,12 @@ RSpec.describe Review::SlackMessage do
 
       expect(example.message).to eq 'hello'
       expect(res.message).to eq 'hello beautiful world'
+    end
+
+    it 'formats usernames' do
+      message = double(slack_username: 'username')
+      res = example << message
+      expect(res.message).to include 'formatted username'
     end
   end
 
@@ -66,6 +86,12 @@ RSpec.describe Review::SlackMessage do
         checksum: 'b94d27b9934d3e08a52e52d7da7dabfac484efe37a5380ee9088f7ace2efcde9',
         sent_at: Time.parse('2017-01-01').utc
       )
+    end
+
+    it 'formats usernames' do
+      message = double(slack_username: 'username')
+      res = example & message
+      expect(res[:contents]).to include(formatted_username)
     end
 
     it 'chains nicely with strings' do

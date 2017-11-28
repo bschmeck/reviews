@@ -18,11 +18,11 @@ module Review
       end
 
       def pull_request_submitter
-        Alias.for params[:pull_request][:user][:login]
+        Directory.lookup github_login: params[:pull_request][:user][:login]
       end
 
       def assignee
-        Alias.for params[:pull_request][:assignee][:login]
+        Directory.lookup github_login: params[:pull_request][:assignee][:login]
       end
 
       def pull_request
@@ -30,11 +30,11 @@ module Review
       end
 
       def reviewer
-        Alias.for params[:requested_reviewer][:login]
+        Directory.lookup github_login: params[:requested_reviewer][:login]
       end
 
       def review_submitter
-        Alias.for params[:review][:user][:login]
+        Directory.lookup github_login: params[:review][:user][:login]
       end
 
       def review_message

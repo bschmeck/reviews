@@ -5,6 +5,7 @@ ENV['WEBHOOK_SECRET_TOKEN'] = '123456'
 require './app/review'
 require 'pry'
 require 'rack/test'
+require 'timecop'
 
 RSpec.configure do |config|
   config.expect_with :rspec do |expectations|
@@ -24,7 +25,6 @@ RSpec.configure do |config|
 
   config.before(:each) do
     allow(HTTParty).to receive(:post)
-    allow(Review::Alias).to receive(:current_time_in_seconds) { 36_000 }
   end
 
   config.after(:each) do
