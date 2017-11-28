@@ -24,7 +24,7 @@ RSpec.configure do |config|
 
   config.before(:each) do
     allow(HTTParty).to receive(:post)
-    allow(Review::Alias).to receive(:current_hour) { 36_000 }
+    allow(Review::Alias).to receive(:current_time_in_seconds) { 36_000 }
   end
 
   config.after(:each) do
