@@ -1,0 +1,5 @@
+---
+silence:
+  zone: America/Chicago
+  start: 18:00
+  end: 08:00 
