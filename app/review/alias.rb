@@ -42,7 +42,7 @@ module Review
 
       def current_time_in_seconds
         Time.zone = zone
-        Time.now.seconds_since_midnight
+        Time.zone.now.seconds_since_midnight
       end
 
       def zone
