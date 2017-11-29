@@ -2,3 +2,4 @@
 *.dat
 *.db
 .cache
+config
