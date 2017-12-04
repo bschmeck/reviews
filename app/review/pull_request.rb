@@ -56,11 +56,11 @@ module Review
         end
       end
       post do
-        SlackMessage << pull_request_submitter \
+        SlackMessage << pull_request_submitter.slack_username \
                      << 'assigned' \
                      << pull_request \
                      << 'to' \
-                      & assignee
+                      & assignee.slack_username
       end
     end
 
@@ -80,9 +80,9 @@ module Review
         end
 
         post do
-          SlackMessage << pull_request_submitter \
+          SlackMessage << pull_request_submitter.slack_username \
                        << 'needs' \
-                       << reviewer \
+                       << reviewer.slack_username \
                        << 'to review' \
                         & pull_request
         end
@@ -110,11 +110,11 @@ module Review
         end
 
         post do
-          SlackMessage << review_submitter \
+          SlackMessage << review_submitter.slack_username \
                        << pull_request_state_verb \
                        << pull_request \
                        << 'by' \
-                       << pull_request_submitter \
+                       << pull_request_submitter.slack_username \
                        << "\n" \
                         & review_message
         end

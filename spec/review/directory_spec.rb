@@ -7,13 +7,13 @@ RSpec.describe Review::Directory do
   describe '::lookup' do
     it 'returns a person' do
       person = described_class.lookup(github_login: 'Jared-Prime')
-      expect(person.slack_username).to eq 'Jared'
+      expect(person.slack_username).to eq Review::SlackUsername.new('Jared')
     end
 
     context "when the specified github login doesn't exist" do
       it 'returns an object with the given login' do
         person = described_class.lookup(github_login: 'missing')
-        expect(person.slack_username).to eq 'missing'
+        expect(person.slack_username).to eq Review::SlackUsername.new('missing')
       end
     end
   end

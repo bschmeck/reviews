@@ -6,7 +6,7 @@ module Review
 
     def initialize(login)
       @github_login = login
-      @slack_username = login
+      @slack_username = SlackUsername.new(login)
     end
   end
 end

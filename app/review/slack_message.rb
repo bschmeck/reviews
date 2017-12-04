@@ -15,7 +15,7 @@ module Review
     attr_reader :message, :cache
 
     def initialize(message, cache: Review::Cache.current)
-      @message = format message
+      @message = message
       @closed = false
       @cache  = cache
     end
@@ -23,7 +23,7 @@ module Review
     def <<(appended)
       raise(MessageClosed, 'Message closed. Unable to modify.') if closed?
 
-      self.class.new "#{message} #{format appended}"
+      self.class.new "#{message} #{appended}"
     end
 
     def +(other)
@@ -62,14 +62,6 @@ module Review
     end
 
     private
-
-    def format(message)
-      if message.respond_to? :slack_username
-        SlackUsernameFormatter.call(message.slack_username)
-      else
-        message.to_s
-      end
-    end
 
     def post_to_slack!(message)
       HTTParty.post(ENV['SLACK_WEBHOOK'], body: { text: message }.to_json)
