@@ -26,7 +26,7 @@ RSpec.describe Review::PullRequest do
     end
 
     it 'proxies message to Slack' do
-      Timecop.freeze(Time.parse("2018-07-08 11:14:15")) do
+      Timecop.freeze(Time.parse('2018-07-08 11:14:15')) do
         post '/pr/assign', params
       end
 
@@ -46,7 +46,7 @@ RSpec.describe Review::PullRequest do
     end
 
     it 'proxies message to Slack' do
-      Timecop.freeze(Time.parse("2018-07-08 11:14:15")) do
+      Timecop.freeze(Time.parse('2018-07-08 11:14:15')) do
         post '/pr/review/request', params
       end
 
@@ -69,7 +69,7 @@ RSpec.describe Review::PullRequest do
       end
 
       it 'proxies message to Slack' do
-        Timecop.freeze(Time.parse("2018-07-08 11:14:15")) do
+        Timecop.freeze(Time.parse('2018-07-08 11:14:15')) do
           post '/pr/review/submit', params
         end
 
@@ -92,7 +92,7 @@ RSpec.describe Review::PullRequest do
       end
 
       it 'proxies message to Slack' do
-        Timecop.freeze(Time.parse("2018-07-08 11:14:15")) do
+        Timecop.freeze(Time.parse('2018-07-08 11:14:15')) do
           post '/pr/review/submit', params
         end
 
@@ -115,7 +115,7 @@ RSpec.describe Review::PullRequest do
       end
 
       it 'proxies message to Slack' do
-        Timecop.freeze(Time.parse("2018-07-08 11:14:15")) do
+        Timecop.freeze(Time.parse('2018-07-08 11:14:15')) do
           post '/pr/review/submit', params
         end
 
