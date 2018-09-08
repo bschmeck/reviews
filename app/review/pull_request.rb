@@ -30,7 +30,11 @@ module Review
       end
 
       def reviewer
-        Directory.lookup github_login: params[:requested_reviewer][:login]
+        if params.key? :requested_reviewer
+          Directory.lookup github_login: params[:requested_reviewer][:login]
+        else
+          MissingPerson.new params[:requested_team][:name]
+        end
       end
 
       def review_submitter
@@ -74,9 +78,13 @@ module Review
               requires :login, type: String
             end
           end
-          requires :requested_reviewer, type: Hash do
+          optional :requested_reviewer, type: Hash do
             requires :login, type: String
           end
+          optional :requested_team, type: Hash do
+            requires :name, type: String
+          end
+          exactly_one_of :requested_reviewer, :requested_team
         end
 
         post do
