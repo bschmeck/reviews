@@ -37,22 +37,44 @@ RSpec.describe Review::PullRequest do
   end
 
   context 'POST /pr/review/request' do
-    let(:params) do
-      { pull_request: {
-        html_url: 'github.com/Jared-Prime/review/pulls/1',
-        user: { login: 'Jared-Prime' }
-      },
-        requested_reviewer: { login: 'somebody-else' } }
-    end
-
-    it 'proxies message to Slack' do
-      Timecop.freeze(Time.parse('2018-07-08 11:14:15')) do
-        post '/pr/review/request', params
+    context 'with a requested reviewer' do
+      let(:params) do
+        { pull_request: {
+          html_url: 'github.com/Jared-Prime/review/pulls/1',
+          user: { login: 'Jared-Prime' }
+        },
+          requested_reviewer: { login: 'somebody-else' } }
       end
 
-      expect(JSON.parse(last_response.body)).to include(
-        'contents' => 'Jared needs somebody-else to review github.com/Jared-Prime/review/pulls/1'
-      )
+      it 'proxies message to Slack' do
+        Timecop.freeze(Time.parse('2018-07-08 11:14:15')) do
+          post '/pr/review/request', params
+        end
+
+        expect(JSON.parse(last_response.body)).to(
+          include('contents' => 'Jared needs somebody-else to review github.com/Jared-Prime/review/pulls/1')
+        )
+      end
+    end
+
+    context 'with a requested team' do
+      let(:params) do
+        { pull_request: {
+          html_url: 'github.com/Jared-Prime/review/pulls/1',
+          user: { login: 'Jared-Prime' }
+        },
+          requested_team: { name: 'My Team' } }
+      end
+
+      it 'proxies message to Slack' do
+        Timecop.freeze(Time.parse('2018-07-08 11:14:15')) do
+          post '/pr/review/request', params
+        end
+
+        expect(JSON.parse(last_response.body)).to(
+          include('contents' => 'Jared needs My Team to review github.com/Jared-Prime/review/pulls/1')
+        )
+      end
     end
   end
 
