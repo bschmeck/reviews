@@ -26,7 +26,9 @@ RSpec.describe Review::PullRequest do
     end
 
     it 'proxies message to Slack' do
-      post '/pr/assign', params
+      Timecop.freeze(Time.parse('2018-07-08 11:14:15')) do
+        post '/pr/assign', params
+      end
 
       expect(JSON.parse(last_response.body)).to include(
         'contents' => 'Jared assigned github.com/Jared-Prime/review/pulls/1 to Jared'
@@ -44,7 +46,9 @@ RSpec.describe Review::PullRequest do
     end
 
     it 'proxies message to Slack' do
-      post '/pr/review/request', params
+      Timecop.freeze(Time.parse('2018-07-08 11:14:15')) do
+        post '/pr/review/request', params
+      end
 
       expect(JSON.parse(last_response.body)).to include(
         'contents' => 'Jared needs somebody-else to review github.com/Jared-Prime/review/pulls/1'
@@ -65,7 +69,9 @@ RSpec.describe Review::PullRequest do
       end
 
       it 'proxies message to Slack' do
-        post '/pr/review/submit', params
+        Timecop.freeze(Time.parse('2018-07-08 11:14:15')) do
+          post '/pr/review/submit', params
+        end
 
         expect(JSON.parse(last_response.body)).to include(
           'contents' => "a friend has reviewed github.com/Jared-Prime/review/pulls/1 by Jared \n good job!"
@@ -86,7 +92,9 @@ RSpec.describe Review::PullRequest do
       end
 
       it 'proxies message to Slack' do
-        post '/pr/review/submit', params
+        Timecop.freeze(Time.parse('2018-07-08 11:14:15')) do
+          post '/pr/review/submit', params
+        end
 
         expect(JSON.parse(last_response.body)).to include(
           'contents' => "a friend has approved github.com/Jared-Prime/review/pulls/1 by Jared \n good job!"
@@ -107,7 +115,9 @@ RSpec.describe Review::PullRequest do
       end
 
       it 'proxies message to Slack' do
-        post '/pr/review/submit', params
+        Timecop.freeze(Time.parse('2018-07-08 11:14:15')) do
+          post '/pr/review/submit', params
+        end
 
         expect(JSON.parse(last_response.body)).to include(
           'contents' => "a friend has requested changes on github.com/Jared-Prime/review/pulls/1 by Jared \n good job!"

@@ -45,7 +45,9 @@ RSpec.describe Review::Webhook do
       end
 
       it 'delegates through to Slack' do
-        post '/webhook/github', params
+        Timecop.freeze(Time.parse('2018-07-08 11:14:15')) do
+          post '/webhook/github', params
+        end
 
         expect(JSON.parse(last_response.body)).to include(
           'contents' => 'Jared assigned github.com/Jared-Prime/review/pulls/1 to a friend'
@@ -64,7 +66,9 @@ RSpec.describe Review::Webhook do
       end
 
       it 'delegates through to Slack' do
-        post '/webhook/github', params
+        Timecop.freeze(Time.parse('2018-07-08 11:14:15')) do
+          post '/webhook/github', params
+        end
 
         expect(JSON.parse(last_response.body)).to include(
           'contents' => 'Jared needs a friend to review github.com/Jared-Prime/review/pulls/1'
@@ -85,7 +89,9 @@ RSpec.describe Review::Webhook do
       end
 
       it 'proxies message to Slack' do
-        post '/webhook/github', params
+        Timecop.freeze(Time.parse('2018-07-08 11:14:15')) do
+          post '/webhook/github', params
+        end
 
         expect(JSON.parse(last_response.body)).to include(
           'contents' => "a friend has reviewed github.com/Jared-Prime/review/pulls/1 by Jared \n good job!"
